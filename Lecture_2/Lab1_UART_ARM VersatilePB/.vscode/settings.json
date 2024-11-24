@@ -1,0 +1,6 @@
+{
+    "editor.fontSize": 22,
+    "files.associations": {
+        "uart.h": "c"
+    }
+}
