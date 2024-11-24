@@ -53,23 +53,18 @@ Linker script and memory map
 
 .igot.plt       0x0001014c        0x0
  .igot.plt      0x0001014c        0x0 startup.o
-
-.bss            0x0001014c       0x45
- *(.bss)
- .bss           0x0001014c        0x0 startup.o
- .bss           0x0001014c        0x0 app.o
- .bss           0x0001014c        0x0 UART.o
- *(.comment)
- .comment       0x0001014c       0x45 app.o
-                                 0x46 (size before relaxing)
- .comment       0x00010191       0x46 UART.o
-                0x000111d7                        . = (. + 0x1000)
-                0x00011191                        stack_top = .
+                0x0001114c                        . = (. + 0x1000)
+                0x0001114c                        stack_top = .
 LOAD startup.o
 LOAD app.o
 LOAD UART.o
 OUTPUT(learn-in-depth.elf elf32-littlearm)
 LOAD linker stubs
+
+.bss            0x0001014c        0x0
+ .bss           0x0001014c        0x0 startup.o
+ .bss           0x0001014c        0x0 app.o
+ .bss           0x0001014c        0x0 UART.o
 
 .ARM.attributes
                 0x00000000       0x2e
@@ -79,3 +74,8 @@ LOAD linker stubs
                 0x00000022       0x2c app.o
  .ARM.attributes
                 0x0000004e       0x2c UART.o
+
+.comment        0x00000000       0x45
+ .comment       0x00000000       0x45 app.o
+                                 0x46 (size before relaxing)
+ .comment       0x00000045       0x46 UART.o

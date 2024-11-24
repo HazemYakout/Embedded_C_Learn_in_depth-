@@ -23,11 +23,6 @@ SECTIONS
 		*(.data)
 	}> Mem
 
-	.bss :
-	{
-		*(.bss)  *(.comment)
-	}> Mem
- 
  	. = . + 0x1000;
  	stack_top = .;
 
