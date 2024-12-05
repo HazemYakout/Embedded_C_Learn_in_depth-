@@ -1,0 +1,110 @@
+
+There are no discarded input sections
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+flash            0x08000000         0x00020000         xr
+sram             0x20000000         0x00005000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD app.o
+LOAD startup.o
+
+.text           0x08000000       0xcb
+ *(.vectors*)
+ .vectors       0x08000000       0x44 startup.o
+ *(.text*)
+ .text          0x08000044       0x7c app.o
+                0x08000044                main
+ .text          0x080000c0        0x8 startup.o
+ *(.rodata*)
+ .rodata        0x080000c8        0x3 app.o
+                0x080000c8                const_var
+                0x080000cb                        _E_text = .
+
+.glue_7         0x080000cc        0x0
+ .glue_7        0x080000cc        0x0 linker stubs
+
+.glue_7t        0x080000cc        0x0
+ .glue_7t       0x080000cc        0x0 linker stubs
+
+.vfp11_veneer   0x080000cc        0x0
+ .vfp11_veneer  0x080000cc        0x0 linker stubs
+
+.v4_bx          0x080000cc        0x0
+ .v4_bx         0x080000cc        0x0 linker stubs
+
+.iplt           0x080000cc        0x0
+ .iplt          0x080000cc        0x0 startup.o
+
+.rel.dyn        0x080000cc        0x0
+ .rel.iplt      0x080000cc        0x0 startup.o
+
+.data           0x20000000        0x3 load address 0x080000cb
+                0x20000000                        _S_data = .
+ *(.data*)
+ .data          0x20000000        0x3 app.o
+                0x20000000                g_var
+ .data          0x20000003        0x0 startup.o
+                0x20000003                        _E_data = .
+
+.igot.plt       0x20000004        0x0 load address 0x080000ce
+ .igot.plt      0x20000004        0x0 startup.o
+
+.bss            0x20000003     0x1001 load address 0x080000ce
+                0x20000003                        _S_bss = .
+ *(.bss*)
+ .bss           0x20000003        0x0 app.o
+ .bss           0x20000003        0x0 startup.o
+                0x20000004                        . = ALIGN (0x4)
+ *fill*         0x20000003        0x1 
+                0x20000004                        _E_bss = .
+                0x20000004                        . = ALIGN (0x4)
+                0x20001004                        . = (. + 0x1000)
+ *fill*         0x20000004     0x1000 
+                0x20001004                        _stacktop = .
+OUTPUT(Toggle_Led_cortex_M3.elf elf32-littlearm)
+LOAD linker stubs
+
+.debug_info     0x00000000      0x156
+ .debug_info    0x00000000      0x130 app.o
+ .debug_info    0x00000130       0x26 startup.o
+
+.debug_abbrev   0x00000000       0xba
+ .debug_abbrev  0x00000000       0xa6 app.o
+ .debug_abbrev  0x000000a6       0x14 startup.o
+
+.debug_loc      0x00000000       0x38
+ .debug_loc     0x00000000       0x38 app.o
+
+.debug_aranges  0x00000000       0x40
+ .debug_aranges
+                0x00000000       0x20 app.o
+ .debug_aranges
+                0x00000020       0x20 startup.o
+
+.debug_line     0x00000000      0x193
+ .debug_line    0x00000000      0x15b app.o
+ .debug_line    0x0000015b       0x38 startup.o
+
+.debug_str      0x00000000      0x148
+ .debug_str     0x00000000      0x148 app.o
+                                0x171 (size before relaxing)
+ .debug_str     0x00000148       0x6d startup.o
+
+.comment        0x00000000       0x45
+ .comment       0x00000000       0x45 app.o
+                                 0x46 (size before relaxing)
+
+.ARM.attributes
+                0x00000000       0x2b
+ .ARM.attributes
+                0x00000000       0x2d app.o
+ .ARM.attributes
+                0x0000002d       0x21 startup.o
+
+.debug_frame    0x00000000       0x2c
+ .debug_frame   0x00000000       0x2c app.o
